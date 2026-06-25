@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title><%= game.name %> — форум</title>
+</head>
+<body>
+  <h1><%= game.name %></h1>
+  <a href="/">← На главную</a>
+  <hr>
+  <a href="/game/<%= game.id %>/new">Создать новую тему</a>
+  <h2>Темы</h2>
+  <% if (topics.length === 0) { %>
+    <p>Пока нет тем.</p>
+  <% } else { %>
+    <ul>
+      <% topics.forEach(topic => { %>
+        <li>
+          <a href="/topic/<%= topic.id %>"><%= topic.title %></a>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+</body>
+</html>

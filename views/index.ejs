@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Игровой форум</title>
+</head>
+<body>
+  <h1>Выбери игру</h1>
+  <ul>
+    <% games.forEach(game => { %>
+      <li><a href="/game/<%= game.id %>"><%= game.name %></a></li>
+    <% }) %>
+  </ul>
+</body>
+</html>
