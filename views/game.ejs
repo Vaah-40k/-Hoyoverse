@@ -3,17 +3,58 @@
 <head>
   <meta charset="utf-8">
   <title><%= game.name %> — форум</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f5f7fa;
+      padding: 2rem 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 { font-size: 2rem; color: #0f172a; margin-bottom: 0.25rem; }
+    .back { color: #3b82f6; text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+    hr { margin: 1.2rem 0; border: none; border-top: 2px solid #e2e8f0; }
+    .new-topic-btn {
+      display: inline-block;
+      background: #3b82f6;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 1.2rem;
+    }
+    .new-topic-btn:hover { background: #2563eb; }
+    .topic-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .topic-list li a {
+      display: block;
+      background: white;
+      padding: 0.8rem 1.2rem;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+      transition: 0.2s;
+    }
+    .topic-list li a:hover {
+      border-color: #3b82f6;
+      background: #f8fafc;
+    }
+    .empty { color: #64748b; font-style: italic; }
+  </style>
 </head>
 <body>
   <h1><%= game.name %></h1>
-  <a href="/">← На главную</a>
+  <a class="back" href="/">← На главную</a>
   <hr>
-  <a href="/game/<%= game.id %>/new">Создать новую тему</a>
+  <a class="new-topic-btn" href="/game/<%= game.id %>/new">➕ Создать новую тему</a>
   <h2>Темы</h2>
   <% if (topics.length === 0) { %>
-    <p>Пока нет тем.</p>
+    <p class="empty">Пока нет тем. Будьте первым!</p>
   <% } else { %>
-    <ul>
+    <ul class="topic-list">
       <% topics.forEach(topic => { %>
         <li>
           <a href="/topic/<%= topic.id %>"><%= topic.title %></a>

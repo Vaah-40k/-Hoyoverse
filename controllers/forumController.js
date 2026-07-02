@@ -1,4 +1,21 @@
 const model = require("../models/forumModel");
+const multer = require("multer");
+const path = require("path");
+
+// Настройка хранения загруженных файлов
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/uploads/");
+  },
+  filename: (req, file, cb) => {
+    const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, unique + path.extname(file.originalname));
+  },
+});
+const upload = multer({ storage });
+
+// Middleware для одного файла (поле "media")
+const uploadSingle = upload.single("media");
 
 // Главная страница — список игр
 exports.index = (req, res) => {
@@ -31,37 +48,55 @@ exports.newTopicForm = (req, res) => {
   res.render("newTopic", { game });
 };
 
-// Обработка создания топика
+// Обработка создания топика (с загрузкой файла)
 exports.createTopic = (req, res) => {
-  const gameId = req.params.gameId;
-  const { title, content } = req.body;
-  const newTopic = {
-    id: model.topicIdCounter++,
-    gameId,
-    title,
-    createdAt: new Date(),
-  };
-  model.topics.push(newTopic);
-  // Первый пост в топике
-  model.posts.push({
-    id: model.postIdCounter++,
-    topicId: newTopic.id,
-    content,
-    createdAt: new Date(),
+  uploadSingle(req, res, (err) => {
+    if (err) return res.status(500).send("Ошибка загрузки файла");
+
+    const gameId = req.params.gameId;
+    const { title, content } = req.body;
+    const filePath = req.file ? "/uploads/" + req.file.filename : null;
+
+    const newTopic = {
+      id: model.topicIdCounter++,
+      gameId,
+      title,
+      createdAt: new Date(),
+    };
+    model.topics.push(newTopic);
+
+    // Первый пост в топике (может содержать медиа)
+    model.posts.push({
+      id: model.postIdCounter++,
+      topicId: newTopic.id,
+      content,
+      media: filePath,
+      createdAt: new Date(),
+    });
+
+    res.redirect(`/game/${gameId}`);
   });
-  res.redirect(`/game/${gameId}`);
 };
 
-// Обработка добавления поста в существующий топик
+// Обработка добавления поста (с загрузкой файла)
 exports.createPost = (req, res) => {
-  const topicId = parseInt(req.params.topicId);
-  const topic = model.topics.find((t) => t.id === topicId);
-  if (!topic) return res.status(404).send("Топик не найден");
-  model.posts.push({
-    id: model.postIdCounter++,
-    topicId,
-    content: req.body.content,
-    createdAt: new Date(),
+  uploadSingle(req, res, (err) => {
+    if (err) return res.status(500).send("Ошибка загрузки файла");
+
+    const topicId = parseInt(req.params.topicId);
+    const topic = model.topics.find((t) => t.id === topicId);
+    if (!topic) return res.status(404).send("Топик не найден");
+
+    const filePath = req.file ? "/uploads/" + req.file.filename : null;
+
+    model.posts.push({
+      id: model.postIdCounter++,
+      topicId,
+      content: req.body.content,
+      media: filePath,
+      createdAt: new Date(),
+    });
+
+    res.redirect(`/topic/${topicId}`);
   });
-  res.redirect(`/topic/${topicId}`);
 };

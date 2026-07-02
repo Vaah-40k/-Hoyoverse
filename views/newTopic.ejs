@@ -3,22 +3,99 @@
   <head>
     <meta charset="utf-8" />
     <title>Новая тема в <%= game.name %></title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        background: #f5f7fa;
+        padding: 2rem 1rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.8rem;
+        color: #0f172a;
+      }
+      .back {
+        color: #3b82f6;
+        text-decoration: none;
+      }
+      .back:hover {
+        text-decoration: underline;
+      }
+      hr {
+        margin: 1rem 0;
+        border: none;
+        border-top: 2px solid #e2e8f0;
+      }
+      form {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+      }
+      label {
+        font-weight: 500;
+        color: #1e293b;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 0.6rem;
+        margin-top: 0.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+      textarea {
+        resize: vertical;
+      }
+      button {
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 0.7rem 1.8rem;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      button:hover {
+        background: #2563eb;
+      }
+      .file-hint {
+        font-size: 0.9rem;
+        color: #475569;
+        margin-top: -0.5rem;
+        margin-bottom: 1rem;
+      }
+    </style>
   </head>
   <body>
     <h1>Новая тема в разделе: <%= game.name %></h1>
-    <a href="/game/<%= game.id %>">← Назад</a>
+    <a class="back" href="/game/<%= game.id %>">← Назад</a>
     <hr />
-    <form method="POST" action="/game/<%= game.id %>">
-      <label>Заголовок темы:</label><br />
-      <input
-        type="text"
-        name="title"
-        required
-        style="width: 300px"
-      /><br /><br />
-      <label>Первое сообщение:</label><br />
-      <textarea name="content" rows="5" cols="50" required></textarea
-      ><br /><br />
+    <form
+      method="POST"
+      action="/game/<%= game.id %>"
+      enctype="multipart/form-data"
+    >
+      <label>Заголовок темы</label>
+      <input type="text" name="title" required />
+
+      <label>Первое сообщение</label>
+      <textarea name="content" rows="5" required></textarea>
+
+      <label>Прикрепить изображение или видео</label>
+      <input type="file" name="media" accept="image/*,video/*" />
+      <p class="file-hint">Поддерживаются JPG, PNG, GIF, MP4, WebM и др.</p>
+
       <button type="submit">Создать тему</button>
     </form>
   </body>

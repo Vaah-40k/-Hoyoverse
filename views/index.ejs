@@ -3,10 +3,50 @@
 <head>
   <meta charset="utf-8">
   <title>Игровой форум</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f5f7fa;
+      padding: 2rem 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+      color: #1e293b;
+      border-bottom: 3px solid #3b82f6;
+      padding-bottom: 0.5rem;
+    }
+    .game-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .game-list li a {
+      display: block;
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #0f172a;
+      font-weight: 500;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      transition: 0.2s;
+      border: 1px solid #e2e8f0;
+    }
+    .game-list li a:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 4px 12px rgba(59,130,246,0.15);
+      transform: translateY(-1px);
+    }
+  </style>
 </head>
 <body>
-  <h1>Выбери игру</h1>
-  <ul>
+  <h1>🎮 Выбери игру</h1>
+  <ul class="game-list">
     <% games.forEach(game => { %>
       <li><a href="/game/<%= game.id %>"><%= game.name %></a></li>
     <% }) %>

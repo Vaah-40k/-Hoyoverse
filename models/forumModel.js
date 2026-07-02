@@ -1,8 +1,10 @@
 // Просто массив игр-разделов
 const games = [
-  { id: "cyberpunk", name: "Cyberpunk 2077" },
-  { id: "witcher", name: "The Witcher 3" },
-  { id: "minecraft", name: "Minecraft" },
+  { id: "genshinimpact", name: "Genshin Impact" },
+  { id: "honkaistarrail ", name: "Honkai: Star Rail" },
+  { id: "zenlesszonezero", name: "Zenless Zone Zero" },
+  { id: "honkaiimpact3rd", name: "Honkai Impact 3rd" },
+  { id: "Tears of Themis", name: "Tears of Themis" },
 ];
 
 // Здесь будем хранить все топики и посты
